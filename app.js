@@ -28,10 +28,14 @@ const showImages = (images) => {
 
 }
 
-const getImages = (query) => {
-  fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
+const getImages = (query, KEY) => {
+  console.log(query);
+  fetch(`https://pixabay.com/api/?key=${KEY}&q=${query}&image_type=photo`)  // there was problem
     .then(response => response.json())
-    .then(data => showImages(data.hitS))
+    .then(data =>{
+      console.log("data: ", data);
+       showImages(data.hits);    // hitS -> hits
+      })
     .catch(err => console.log(err))
 }
 
@@ -67,7 +71,14 @@ const createSlider = () => {
   document.querySelector('.main').style.display = 'block';
   // hide image aria
   imagesArea.style.display = 'none';
-  const duration = document.getElementById('duration').value || 1000;
+  const duration = document.getElementById('duration').value || 1000;   // default value is 1000 
+  console.log("duration: ", typeof duration);
+  if(parseFloat(duration) < 0){
+    alert('You have given negative duration. Please give a positive duration.')
+    return;
+   
+  }
+
   sliders.forEach(slide => {
     let item = document.createElement('div')
     item.className = "slider-item";
@@ -113,7 +124,7 @@ searchBtn.addEventListener('click', function () {
   document.querySelector('.main').style.display = 'none';
   clearInterval(timer);
   const search = document.getElementById('search');
-  getImages(search.value)
+  getImages(search.value, KEY)
   sliders.length = 0;
 })
 
