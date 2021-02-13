@@ -48,7 +48,9 @@ const selectItem = (event, img) => {
   if (item === -1) {
     sliders.push(img);
   } else {
-    alert('Hey, Already added !')
+    element.classList.remove('added');
+    // alert('Hey, Already added !')
+    sliders.pop(img);
   }
 }
 var timer
@@ -72,12 +74,15 @@ const createSlider = () => {
   // hide image aria
   imagesArea.style.display = 'none';
   const duration = document.getElementById('duration').value || 1000;   // default value is 1000 
-  console.log("duration: ", typeof duration);
-  if(parseFloat(duration) < 0){
-    alert('You have given negative duration. Please give a positive duration.')
-    return;
+  console.log("duration: ", duration);
+  
+  // if(parseFloat(duration) < 0){
+  //   alert('You have given negative duration. Please give a positive duration.')
+  //   // return createSlider();
+  //   // getImages(search.value, KEY)
+    
    
-  }
+  // }
 
   sliders.forEach(slide => {
     let item = document.createElement('div')
@@ -87,11 +92,16 @@ const createSlider = () => {
     alt="">`;
     sliderContainer.appendChild(item)
   })
-  changeSlide(0)
-  timer = setInterval(function () {
-    slideIndex++;
-    changeSlide(slideIndex);
-  }, duration);
+  
+  // if(parseFloat(duration) > 0){
+    changeSlide(0)
+    timer = setInterval(function () {
+      slideIndex++;
+      console.log("inside timer duration: ", duration);
+      changeSlide(slideIndex);
+    }, duration);
+  // }
+ 
 }
 
 // change slider index 
@@ -120,14 +130,24 @@ const changeSlide = (index) => {
   items[index].style.display = "block"
 }
 
-searchBtn.addEventListener('click', function () {
-  document.querySelector('.main').style.display = 'none';
-  clearInterval(timer);
-  const search = document.getElementById('search');
-  getImages(search.value, KEY)
-  sliders.length = 0;
+const searchBtnClicked = () =>{
+  // searchBtn.addEventListener('click', function () {
+    document.querySelector('.main').style.display = 'none';
+    clearInterval(timer);
+    const search = document.getElementById('search');
+    getImages(search.value, KEY)
+    sliders.length = 0;
+  // })
+}
+document.getElementById("search").addEventListener("keypress", function(event){
+  if(event.key == "Enter"){
+    searchBtnClicked();
+}
 })
 
-sliderBtn.addEventListener('click', function () {
-  createSlider()
-})
+// const sliderBtnClicked = () =>{
+  sliderBtn.addEventListener('click', function () {
+    createSlider()
+  })
+// }
+
