@@ -137,6 +137,7 @@ const searchBtnClicked = () => {
   const search = document.getElementById('search');
   getImages(search.value, KEY)
   sliders.length = 0;
+  slideNumberChange("from search button");
 }
 // if someone press the key ENTER
 document.getElementById("search").addEventListener("keypress", function (event) {
@@ -173,8 +174,12 @@ const slideNumberChange = (dd) =>{
     slideNumber++;
     document.getElementById("slideNumber").innerText = `${slideNumber}`;
   }
-  else{
+  else if(dd == "minus"){
     slideNumber--;
     document.getElementById("slideNumber").innerText = `${slideNumber}`;
+  }
+  else{
+    slideNumber = 0;
+    document.getElementById("slideNumber").innerText = `${slideNumber}`
   }
 }
