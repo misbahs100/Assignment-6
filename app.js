@@ -25,20 +25,20 @@ const showImages = (images) => {
     div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
     gallery.appendChild(div)
   })
- tootleSpinner();
+  tootleSpinner();
 }
 
 const getImages = (query, KEY) => {
   console.log(query);
   tootleSpinner();
-  fetch(`https://pixabay.com/api/?key=${KEY}&q=${query}&image_type=photo`)  // there was problem
+  fetch(`https://pixabay.com/api/?key=${KEY}&q=${query}&image_type=photo`)   // there was problem
     .then(response => response.json())
-    .then(data =>{
+    .then(data => {
       console.log("data: ", data);
-       showImages(data.hits);    // hitS -> hits
-      })
+      showImages(data.hits);    // hitS -> hits
+    })
     .catch(err => {
-      console.log(err);
+      console.log(err);      // web-developer can understand what is the error
       errorMessage();
     })
 }
@@ -46,22 +46,20 @@ const getImages = (query, KEY) => {
 let slideIndex = 0;
 const selectItem = (event, img) => {
   let element = event.target;
-  element.classList.add('added');
- 
+  element.classList.add('added');   // if an item is selected, a border will arrive
+
   let item = sliders.indexOf(img);
   console.log("index of img: ", item);
   console.log("image: ", img);
   if (item === -1) {
-    sliders.push(img);
+    sliders.push(img);    // the selected item will be added at the end of the sliders array
   } else {
-    element.classList.remove('added');
-    // alert('Hey, Already added !')
-    sliders.pop(img);
-    // item = -8;
-    // delete sliders[item]; 
+    element.classList.remove('added');    // the border of the selected item will be removed
+
+    sliders.splice(item, 1);      // the selected item will be removed from sliders array
 
   }
-  console.log("sliders: ",sliders)
+  console.log("sliders: ", sliders)
 }
 var timer
 const createSlider = () => {
@@ -85,14 +83,6 @@ const createSlider = () => {
   imagesArea.style.display = 'none';
   const duration = document.getElementById('duration').value || 1000;   // default value is 1000 
   console.log("duration: ", duration);
-  
-  // if(parseFloat(duration) < 0){
-  //   alert('You have given negative duration. Please give a positive duration.')
-  //   // return createSlider();
-  //   // getImages(search.value, KEY)
-    
-   
-  // }
 
   sliders.forEach(slide => {
     let item = document.createElement('div')
@@ -102,16 +92,15 @@ const createSlider = () => {
     alt="">`;
     sliderContainer.appendChild(item)
   })
-  
-  // if(parseFloat(duration) > 0){
-    changeSlide(0)
-    timer = setInterval(function () {
-      slideIndex++;
-      console.log("inside timer duration: ", duration);
-      changeSlide(slideIndex);
-    }, duration);
-  // }
- 
+
+  changeSlide(0)
+  timer = setInterval(function () {
+    slideIndex++;
+    console.log("inside timer duration: ", duration);
+    changeSlide(slideIndex);
+  }, duration);
+
+
 }
 
 // change slider index 
@@ -140,36 +129,38 @@ const changeSlide = (index) => {
   items[index].style.display = "block"
 }
 
-const searchBtnClicked = () =>{
-  // searchBtn.addEventListener('click', function () {
-    document.querySelector('.main').style.display = 'none';
-    clearInterval(timer);
-    const search = document.getElementById('search');
-    getImages(search.value, KEY)
-    sliders.length = 0;
-  // })
+// if search button is clicked
+const searchBtnClicked = () => {
+  document.querySelector('.main').style.display = 'none';
+  clearInterval(timer);
+  const search = document.getElementById('search');
+  getImages(search.value, KEY)
+  sliders.length = 0;
 }
-document.getElementById("search").addEventListener("keypress", function(event){
-  if(event.key == "Enter"){
+// if someone press the key ENTER
+document.getElementById("search").addEventListener("keypress", function (event) {
+  if (event.key == "Enter") {
     searchBtnClicked();
-}
+  }
 })
 
-// const sliderBtnClicked = () =>{
-  sliderBtn.addEventListener('click', function () {
-    createSlider()
-  })
-// }
+// if slider button is clicked
+sliderBtn.addEventListener('click', function () {
+  createSlider()
+})
 
-const tootleSpinner = () =>{
+// function for loading-spinner
+const tootleSpinner = () => {
   const loadingSpinner = document.getElementById("loadingSpinner");
   loadingSpinner.classList.toggle("d-none");
 }
 
-const errorMessage = () =>{
+// function for showing error message when something is wrong
+const errorMessage = () => {
   const error = document.getElementById("error");
   error.innerHTML = `
     <h1> Something Went wrong! Please try again!</h1>
   `;
   tootleSpinner();
 }
+
