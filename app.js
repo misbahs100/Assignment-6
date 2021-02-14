@@ -22,7 +22,7 @@ const showImages = (images) => {
   images.forEach(image => {
     let div = document.createElement('div');
     div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
-    div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
+    div.innerHTML = ` <img class="hhhhh img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
     gallery.appendChild(div)
   })
   tootleSpinner();
@@ -53,11 +53,12 @@ const selectItem = (event, img) => {
   console.log("image: ", img);
   if (item === -1) {
     sliders.push(img);    // the selected item will be added at the end of the sliders array
+    slideNumberChange("plus");
   } else {
     element.classList.remove('added');    // the border of the selected item will be removed
 
     sliders.splice(item, 1);      // the selected item will be removed from sliders array
-
+    slideNumberChange("minus");
   }
   console.log("sliders: ", sliders)
 }
@@ -164,3 +165,16 @@ const errorMessage = () => {
   tootleSpinner();
 }
 
+// function for showing how many items are selected for slider
+const slideNumberChange = (dd) =>{
+  let slideNumber = parseFloat(document.getElementById("slideNumber").innerText);
+  console.log("slide number: ",slideNumber+1);
+  if(dd == "plus"){
+    slideNumber++;
+    document.getElementById("slideNumber").innerText = `${slideNumber}`;
+  }
+  else{
+    slideNumber--;
+    document.getElementById("slideNumber").innerText = `${slideNumber}`;
+  }
+}

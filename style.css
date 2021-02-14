@@ -5,7 +5,12 @@
   margin: 0 auto;
   position: relative;
 }
-
+.hhhhh{
+  transition: transform 0.5s;
+}
+.hhhhh:hover{
+  transform: translateY(-10px);
+}
 .gallery-header {
   display: none;
 }
