@@ -54,7 +54,11 @@ img {
 .main {
   display: none;
 }
-
+#error{
+  color: red;
+  text-align: center;
+  margin-top: 35px;
+}
 @media (max-width: 767px) {
   .justify-content-around.align-items-center.mt-3.gallery-header.mb-2 {
     flex-direction: column;

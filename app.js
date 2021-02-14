@@ -25,18 +25,22 @@ const showImages = (images) => {
     div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
     gallery.appendChild(div)
   })
-
+ tootleSpinner();
 }
 
 const getImages = (query, KEY) => {
   console.log(query);
+  tootleSpinner();
   fetch(`https://pixabay.com/api/?key=${KEY}&q=${query}&image_type=photo`)  // there was problem
     .then(response => response.json())
     .then(data =>{
       console.log("data: ", data);
        showImages(data.hits);    // hitS -> hits
       })
-    .catch(err => console.log(err))
+    .catch(err => {
+      console.log(err);
+      errorMessage();
+    })
 }
 
 let slideIndex = 0;
@@ -45,13 +49,19 @@ const selectItem = (event, img) => {
   element.classList.add('added');
  
   let item = sliders.indexOf(img);
+  console.log("index of img: ", item);
+  console.log("image: ", img);
   if (item === -1) {
     sliders.push(img);
   } else {
     element.classList.remove('added');
     // alert('Hey, Already added !')
     sliders.pop(img);
+    // item = -8;
+    // delete sliders[item]; 
+
   }
+  console.log("sliders: ",sliders)
 }
 var timer
 const createSlider = () => {
@@ -151,3 +161,15 @@ document.getElementById("search").addEventListener("keypress", function(event){
   })
 // }
 
+const tootleSpinner = () =>{
+  const loadingSpinner = document.getElementById("loadingSpinner");
+  loadingSpinner.classList.toggle("d-none");
+}
+
+const errorMessage = () =>{
+  const error = document.getElementById("error");
+  error.innerHTML = `
+    <h1> Something Went wrong! Please try again!</h1>
+  `;
+  tootleSpinner();
+}
