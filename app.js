@@ -22,7 +22,7 @@ const showImages = (images) => {
   images.forEach(image => {
     let div = document.createElement('div');
     div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
-    div.innerHTML = ` <img class="hhhhh img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
+    div.innerHTML = ` <img class="galaryImage img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
     gallery.appendChild(div)
   })
   tootleSpinner();
@@ -35,11 +35,20 @@ const getImages = (query, KEY) => {
     .then(response => response.json())
     .then(data => {
       console.log("data: ", data);
-      showImages(data.hits);    // hitS -> hits
+      if(data.hits.length == 0){
+        document.getElementById("error").style.display = "block";
+        document.getElementById("selection-section").style.display = "none";
+        errorMessage("nothing found");
+      }
+      else{
+        document.getElementById("error").style.display = "none";
+        showImages(data.hits);  
+      }
+      
     })
     .catch(err => {
-      console.log(err);      // web-developer can understand what is the error
-      errorMessage();
+      console.log(err);            // web-developer can understand what is the error
+      errorMessage("something error");
     })
 }
 
@@ -138,8 +147,10 @@ const searchBtnClicked = () => {
   getImages(search.value, KEY)
   sliders.length = 0;
   slideNumberChange("from search button");
+  document.getElementById("duration").value = '';
+
 }
-// if someone press the key ENTER
+// if someone press the key ENTER at search bar
 document.getElementById("search").addEventListener("keypress", function (event) {
   if (event.key == "Enter") {
     searchBtnClicked();
@@ -148,14 +159,13 @@ document.getElementById("search").addEventListener("keypress", function (event) 
 
 // if slider button is clicked
 const sliderBtnClicked = () =>{
-  // sliderBtn.addEventListener('click', function () {
     createSlider()
-  // })
 }
+
+// if user press the key ENTER at duration bar
 document.getElementById("duration").addEventListener("keypress", function (event) {
   console.log("slider button clicked: ", event.key);
   if (event.key == "Enter") {
-    
     sliderBtnClicked();
   }
 })
@@ -167,11 +177,21 @@ const tootleSpinner = () => {
 }
 
 // function for showing error message when something is wrong
-const errorMessage = () => {
+const errorMessage = (problem) => {
   const error = document.getElementById("error");
-  error.innerHTML = `
+  
+  if(problem == "nothing found"){
+    const searchBar = document.getElementById("search").value;
+    error.innerHTML = `
+    <h1>Nothing found named as "${searchBar}"</h1>
+  `;
+  }
+  else{
+    error.innerHTML = `
     <h1> Something Went wrong! Please try again!</h1>
   `;
+  }
+
   tootleSpinner();
 }
 

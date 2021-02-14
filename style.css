@@ -5,10 +5,10 @@
   margin: 0 auto;
   position: relative;
 }
-.hhhhh{
+.galaryImage{
   transition: transform 0.5s;
 }
-.hhhhh:hover{
+.galaryImage:hover{
   transform: translateY(-10px);
 }
 .gallery-header {
@@ -55,7 +55,6 @@ img {
   cursor: pointer;
   margin: 0 3px;
 }
-
 .main {
   display: none;
 }
@@ -63,6 +62,18 @@ img {
   color: red;
   text-align: center;
   margin-top: 35px;
+}
+body{ 
+  height:100vh;
+  margin:0;
+  display:flex; 
+  flex-direction:column; 
+}
+footer{
+  margin-top: auto;
+  min-height: 40px;
+  background:PapayaWhip;
+  text-align: center;
 }
 @media (max-width: 767px) {
   .justify-content-around.align-items-center.mt-3.gallery-header.mb-2 {
@@ -74,15 +85,4 @@ img {
   }
 }
 
-footer{
-  margin-top: auto;
-  min-height: 40px;
-  background:PapayaWhip;
-  text-align: center;
-}
-body{ 
-  height:100vh;
-  margin:0;
-  display:flex; 
-  flex-direction:column; 
-}
+
