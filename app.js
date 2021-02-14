@@ -147,8 +147,17 @@ document.getElementById("search").addEventListener("keypress", function (event) 
 })
 
 // if slider button is clicked
-sliderBtn.addEventListener('click', function () {
-  createSlider()
+const sliderBtnClicked = () =>{
+  // sliderBtn.addEventListener('click', function () {
+    createSlider()
+  // })
+}
+document.getElementById("duration").addEventListener("keypress", function (event) {
+  console.log("slider button clicked: ", event.key);
+  if (event.key == "Enter") {
+    
+    sliderBtnClicked();
+  }
 })
 
 // function for loading-spinner
