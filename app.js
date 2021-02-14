@@ -167,14 +167,14 @@ const errorMessage = () => {
 }
 
 // function for showing how many items are selected for slider
-const slideNumberChange = (dd) =>{
+const slideNumberChange = (toDo) =>{
   let slideNumber = parseFloat(document.getElementById("slideNumber").innerText);
   console.log("slide number: ",slideNumber+1);
-  if(dd == "plus"){
+  if(toDo == "plus"){
     slideNumber++;
     document.getElementById("slideNumber").innerText = `${slideNumber}`;
   }
-  else if(dd == "minus"){
+  else if(toDo == "minus"){
     slideNumber--;
     document.getElementById("slideNumber").innerText = `${slideNumber}`;
   }
