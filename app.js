@@ -29,9 +29,8 @@ const showImages = (images) => {
 }
 
 const getImages = (query, KEY) => {
-  console.log(query);
   tootleSpinner();
-  fetch(`https://pixabay.com/api/?key=${KEY}&q=${query}&image_type=photo`)   // there was problem
+  fetch(`https://pixabay.com/api/?key=${KEY}&q=${query}&image_type=photo`)  
     .then(response => response.json())
     .then(data => {
       console.log("data: ", data);
@@ -47,7 +46,7 @@ const getImages = (query, KEY) => {
       
     })
     .catch(err => {
-      console.log(err);            // web-developer can understand what is the error
+      console.log(err);            // developer can understand what is the error
       errorMessage("something error");
     })
 }
@@ -57,19 +56,15 @@ const selectItem = (event, img) => {
   let element = event.target;
   element.classList.add('added');   // if an item is selected, a border will arrive
 
-  let item = sliders.indexOf(img);
-  console.log("index of img: ", item);
-  console.log("image: ", img);
+  let item = sliders.indexOf(img);    // item is the index of the selected image
   if (item === -1) {
     sliders.push(img);    // the selected item will be added at the end of the sliders array
     slideNumberChange("plus");
   } else {
     element.classList.remove('added');    // the border of the selected item will be removed
-
     sliders.splice(item, 1);      // the selected item will be removed from sliders array
     slideNumberChange("minus");
   }
-  console.log("sliders: ", sliders)
 }
 var timer
 const createSlider = () => {
@@ -92,7 +87,6 @@ const createSlider = () => {
   // hide image aria
   imagesArea.style.display = 'none';
   const duration = document.getElementById('duration').value || 1000;   // default value is 1000 
-  console.log("duration: ", duration);
 
   sliders.forEach(slide => {
     let item = document.createElement('div')
@@ -106,10 +100,8 @@ const createSlider = () => {
   changeSlide(0)
   timer = setInterval(function () {
     slideIndex++;
-    console.log("inside timer duration: ", duration);
     changeSlide(slideIndex);
   }, duration);
-
 
 }
 
@@ -144,7 +136,7 @@ const searchBtnClicked = () => {
   document.querySelector('.main').style.display = 'none';
   clearInterval(timer);
   const search = document.getElementById('search');
-  getImages(search.value, KEY)
+  getImages(search.value, KEY);
   sliders.length = 0;
   slideNumberChange("from search button");
   document.getElementById("duration").value = '';
@@ -161,7 +153,6 @@ document.getElementById("search").addEventListener("keypress", function (event) 
 const sliderBtnClicked = () =>{
     createSlider()
 }
-
 // if user press the key ENTER at duration bar
 document.getElementById("duration").addEventListener("keypress", function (event) {
   console.log("slider button clicked: ", event.key);
@@ -176,7 +167,7 @@ const tootleSpinner = () => {
   loadingSpinner.classList.toggle("d-none");
 }
 
-// function for showing error message when something is wrong
+// function for showing ERROR message
 const errorMessage = (problem) => {
   const error = document.getElementById("error");
   
@@ -198,7 +189,7 @@ const errorMessage = (problem) => {
 // function for showing how many items are selected for slider
 const slideNumberChange = (toDo) =>{
   let slideNumber = parseFloat(document.getElementById("slideNumber").innerText);
-  console.log("slide number: ",slideNumber+1);
+
   if(toDo == "plus"){
     slideNumber++;
     document.getElementById("slideNumber").innerText = `${slideNumber}`;
